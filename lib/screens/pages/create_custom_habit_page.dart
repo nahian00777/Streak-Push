@@ -1,6 +1,7 @@
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:streak_push/screens/pages/home_page.dart';
 import 'package:streak_push/utility/constants.dart';
 import '../../controller/create_habit_controller.dart';
 
@@ -66,11 +67,12 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
                                   // Toggling emoji visibility using GetX observable
                                   controller.isEmojiVisible.value = false;
                                 },
+                                style: TextStyle(fontSize: 20),
                                 decoration: InputDecoration(
                                   contentPadding:
                                       EdgeInsets.only(left: 5, right: 5),
                                   border: InputBorder.none,
-                                  hintText: " Workout",
+                                  hintText: " workout",
                                   hintStyle: TextStyle(
                                     fontSize: 20,
                                   ),
@@ -180,26 +182,66 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
                           Text('Reminder',
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold)),
-                          Switch(
-                              value: reminder,
-                              onChanged: (value) => reminder = value),
+                          Obx(() {
+                            return Switch(
+                                value: controller.isReminderOn.value,
+                                onChanged: (value) {
+                                  // FocusScope.of(context).unfocus();
+                                  controller.isReminderOn.value = value;
+                                  if (value) {
+                                    showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay.now())
+                                        .then((time) {
+                                      if (time != null) {
+                                        controller.selectedTime = time;
+                                      }
+                                      FocusScope.of(context).requestFocus(
+                                          controller.focusNodeToHabit);
+                                    });
+                                  } else {
+                                    controller.resetReminder();
+                                  }
+                                });
+                          }),
                         ],
                       ),
+                      Obx(() {
+                        if (controller.isReminderOn.value &&
+                            controller.selectedTime != null) {
+                          return Text(
+                            "Reminder set for: ${controller.selectedTime!.format(context)}",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          );
+                        } else {
+                          return Container(); // Empty container when no reminder is set
+                        }
+                      }),
                       const Spacer(),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(double.infinity, 60),
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+
+                      Focus(
+                        focusNode: controller.focusNodeToHabit,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Pushing Data to the Database
+                            Get.offAll(MyHomePage());
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity, 60),
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
                           ),
-                        ),
-                        child: const Text(
-                          'Create Habit',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
+                          child: const Text(
+                            'Create Habit',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),

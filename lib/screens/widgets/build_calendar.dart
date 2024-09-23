@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
+import 'package:streak_push/utility/constants.dart';
 
 class BuildCalendar extends StatelessWidget {
   const BuildCalendar({super.key});
@@ -32,8 +33,16 @@ class BuildCalendar extends StatelessWidget {
         1: Color.fromARGB(255, 2, 179, 8)
       },
       onClick: (value) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(value.toString())));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          duration: Duration(milliseconds: 200),
+          backgroundColor: secondaryColor, // Change the background color here
+          content: Text(
+            '${value.day}-${value.month}-${value.year}',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ));
       },
     );
   }
