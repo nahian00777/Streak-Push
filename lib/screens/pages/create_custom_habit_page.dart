@@ -110,11 +110,25 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
                           Text('Frequency',
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold)),
-                          Text('All Day',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold)),
+                          Obx(() {
+                            int selectedCount = controller.selectedDays
+                                .where((day) => day == true)
+                                .length;
+                            String displayText;
+                            // Determine the text to display based on the selectedCount
+                            if (selectedCount == 7) {
+                              displayText = "All Day";
+                            } else if (selectedCount == 0) {
+                              displayText = "Choose at least 1 day";
+                            } else {
+                              displayText = "$selectedCount x days";
+                            }
+                            return Text(displayText,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold));
+                          }),
                         ],
                       ),
                       SizedBox(height: 10),
@@ -136,18 +150,25 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
                               child: InkWell(
                                   onTap: () {
                                     // Add your onTap code here
+                                    controller.toggleDay(index);
+                                    // toggle Color
                                   },
-                                  child: CircleAvatar(
-                                    backgroundColor: selectedDays[index]
-                                        ? Colors.white
-                                        : Colors.grey,
-                                    child: Text(
-                                      dayLabel[index],
-                                      style: TextStyle(
-                                        color: Colors.white,
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  child: Obx(() {
+                                    return CircleAvatar(
+                                      backgroundColor:
+                                          controller.selectedDays[index]
+                                              ? secondaryColor
+                                              : Colors.grey,
+                                      child: Text(
+                                        dayLabel[index],
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
-                                  )),
+                                    );
+                                  })),
                             );
                           },
                         ),
