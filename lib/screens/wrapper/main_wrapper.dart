@@ -44,8 +44,9 @@ class MainWrapper extends StatelessWidget {
             ),
             child: Theme(
               data: ThemeData(
-                splashColor: Colors.transparent,
+                // splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
+                splashFactory: NoSplash.splashFactory,
               ),
               child: BottomNavigationBar(
                 // enableFeedback: true,

@@ -13,6 +13,7 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     List<bool> selectedDays = List.generate(7, (index) => false);
     bool reminder = false;
 
@@ -83,8 +84,86 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
                           InkWell(
                             onTap: () {
                               // Toggling emoji visibility using GetX observable
-                              controller.isEmojiVisible.value = true;
-                              FocusScope.of(context).unfocus();
+                              // controller.isEmojiVisible.value = true;
+                              showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  backgroundColor: secondaryColor,
+                                  context: context,
+                                  builder: (_) {
+                                    return FractionallySizedBox(
+                                      heightFactor: 0.75,
+                                      child: Column(children: [
+                                        Container(
+                                          margin: EdgeInsets.only(top: 10),
+                                          // Margin from the top
+                                          height: 5,
+                                          // Height of the bar
+                                          width: 50,
+                                          // Width of the bar
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[400],
+                                            // Color of the bar
+                                            borderRadius: BorderRadius.circular(
+                                                10), // Rounded edges
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: secondaryColor,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(20),
+                                                topRight: Radius.circular(20),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 8,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: secondaryColor,
+                                            ),
+                                            child: EmojiPicker(
+                                              onEmojiSelected:
+                                                  (category, emoji) {
+                                                // Add your onEmojiSelected code here
+                                                controller.selectedEmoji.value =
+                                                    emoji.emoji;
+                                                controller.isEmojiVisible
+                                                    .value = false;
+                                              },
+                                              config: Config(
+                                                bottomActionBarConfig:
+                                                    BottomActionBarConfig(
+                                                  showSearchViewButton: false,
+                                                  showBackspaceButton: false,
+                                                ),
+                                                emojiViewConfig:
+                                                    EmojiViewConfig(
+                                                  backgroundColor:
+                                                      secondaryColor,
+                                                ),
+                                                categoryViewConfig:
+                                                    CategoryViewConfig(
+                                                  backgroundColor:
+                                                      secondaryColor,
+                                                ),
+                                                skinToneConfig: SkinToneConfig(
+                                                  dialogBackgroundColor:
+                                                      secondaryColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                    );
+                                  });
+                              FocusScope.of(context)
+                                  .requestFocus(controller.focusNodeToHabit);
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 10),
@@ -249,46 +328,52 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
                     ],
                   ),
                 ),
-                Obx(() {
-                  return GestureDetector(
-                    onVerticalDragUpdate: (details) {
-                      if (details.delta.dy > 0)
-                        controller.isEmojiVisible.value = false;
-                    },
-                    child: Container(
-                      // rounded
-                      padding: EdgeInsets.only(top: 200),
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: Offstage(
-                        offstage: !controller.isEmojiVisible.value,
-                        child: EmojiPicker(
-                          onEmojiSelected: (category, emoji) {
-                            // Add your onEmojiSelected code here
-                            controller.selectedEmoji.value = emoji.emoji;
-                            controller.isEmojiVisible.value = false;
-                          },
-                          config: Config(
-                            bottomActionBarConfig: BottomActionBarConfig(
-                              showSearchViewButton: false,
-                              showBackspaceButton: false,
-                            ),
-                            customBackspaceIcon: Icon(Icons.arrow_back),
-                            emojiViewConfig: EmojiViewConfig(
-                              backgroundColor: secondaryColor,
-                            ),
-                            categoryViewConfig: CategoryViewConfig(
-                              backgroundColor: secondaryColor,
-                            ),
-                            skinToneConfig: SkinToneConfig(
-                              dialogBackgroundColor: primaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }),
+                // Obx(() {
+                //   return GestureDetector(
+                //     onVerticalDragUpdate: (details) {
+                //       if (details.delta.dy > 0)
+                //         controller.isEmojiVisible.value = false;
+                //     },
+                //     child: Column(
+                // rounded
+                // padding: EdgeInsets.only(top: 200),
+                // height: double.infinity,
+                // width: double.infinity,
+                // children: [
+                //   SizedBox(height: 150),
+                //   Expanded(
+                //     child: Offstage(
+                //       offstage: !controller.isEmojiVisible.value,
+                // _showEmojiPicker(context);
+                //     child: EmojiPicker(
+                //       onEmojiSelected: (category, emoji) {
+                //         // Add your onEmojiSelected code here
+                //         controller.selectedEmoji.value = emoji.emoji;
+                //         controller.isEmojiVisible.value = false;
+                //       },
+                //       config: Config(
+                //         bottomActionBarConfig: BottomActionBarConfig(
+                //           showSearchViewButton: false,
+                //           showBackspaceButton: false,
+                //         ),
+                //         customBackspaceIcon: Icon(Icons.arrow_back),
+                //         emojiViewConfig: EmojiViewConfig(
+                //           backgroundColor: secondaryColor,
+                //         ),
+                //         categoryViewConfig: CategoryViewConfig(
+                //           backgroundColor: secondaryColor,
+                //         ),
+                //         skinToneConfig: SkinToneConfig(
+                //           dialogBackgroundColor: primaryColor,
+                //         ),
+                //       ),
+                //     ),
+                //           ),
+                //         ),
+                //       ]),
+                // );
+                //             }
+                // ),
               ],
             ),
           )),
