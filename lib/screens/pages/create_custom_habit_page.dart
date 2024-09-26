@@ -64,6 +64,7 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: TextField(
+                                controller: controller.habitName,
                                 onTap: () {
                                   // Toggling emoji visibility using GetX observable
                                   controller.isEmojiVisible.value = false;
@@ -328,52 +329,6 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
                     ],
                   ),
                 ),
-                // Obx(() {
-                //   return GestureDetector(
-                //     onVerticalDragUpdate: (details) {
-                //       if (details.delta.dy > 0)
-                //         controller.isEmojiVisible.value = false;
-                //     },
-                //     child: Column(
-                // rounded
-                // padding: EdgeInsets.only(top: 200),
-                // height: double.infinity,
-                // width: double.infinity,
-                // children: [
-                //   SizedBox(height: 150),
-                //   Expanded(
-                //     child: Offstage(
-                //       offstage: !controller.isEmojiVisible.value,
-                // _showEmojiPicker(context);
-                //     child: EmojiPicker(
-                //       onEmojiSelected: (category, emoji) {
-                //         // Add your onEmojiSelected code here
-                //         controller.selectedEmoji.value = emoji.emoji;
-                //         controller.isEmojiVisible.value = false;
-                //       },
-                //       config: Config(
-                //         bottomActionBarConfig: BottomActionBarConfig(
-                //           showSearchViewButton: false,
-                //           showBackspaceButton: false,
-                //         ),
-                //         customBackspaceIcon: Icon(Icons.arrow_back),
-                //         emojiViewConfig: EmojiViewConfig(
-                //           backgroundColor: secondaryColor,
-                //         ),
-                //         categoryViewConfig: CategoryViewConfig(
-                //           backgroundColor: secondaryColor,
-                //         ),
-                //         skinToneConfig: SkinToneConfig(
-                //           dialogBackgroundColor: primaryColor,
-                //         ),
-                //       ),
-                //     ),
-                //           ),
-                //         ),
-                //       ]),
-                // );
-                //             }
-                // ),
               ],
             ),
           )),

@@ -8,6 +8,8 @@ class CreateHabitController extends GetxController {
   var selectedDays = List<bool>.filled(7, true).obs;
   var isReminderOn = false.obs;
   var selectedTime = TimeOfDay.now();
+  var habitName;
+
   FocusNode focusNode = FocusNode();
   FocusNode focusNodeToHabit = FocusNode();
 

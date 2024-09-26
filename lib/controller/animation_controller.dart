@@ -6,6 +6,8 @@ class AnimeController extends GetxController {
   // var height = 100.0.obs;
   // var width = 100.0.obs;
   var color = Colors.blue.obs;
+  var tileColor = Colors.white.obs;
+  var isPressed = false.obs;
   // var padding = 0.0.obs;
 
   void toggleAnimation() {
