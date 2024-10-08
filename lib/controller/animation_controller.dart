@@ -8,7 +8,15 @@ class AnimeController extends GetxController {
   var color = Colors.blue.obs;
   var tileColor = Colors.white.obs;
   var isPressed = false.obs;
+  late AnimationController fabController;
+  var isFabVisible = true.obs;
+
   // var padding = 0.0.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
 
   void toggleAnimation() {
     // Change properties to trigger animation

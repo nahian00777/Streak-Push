@@ -10,7 +10,8 @@ class TaskPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String taskName = "Task Name";
-    int streakDays = 0;
+    int streakDays = 0; // Ideally, this should come from a reactive variable or a state management solution
+
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
@@ -73,187 +74,210 @@ class TaskPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            // Steak Container
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Text(
-                    'Current Streak',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        streakDays.toString(),
-                        style: TextStyle(
-                          fontSize: 50,
-                          fontFamily: 'Times New Roman',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      Icon(Icons.local_fire_department,
-                          size: 50, color: Colors.orange),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            _buildStreakContainer(streakDays),
             SizedBox(height: 20),
-            // Total Repititions
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Total Repititions',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    'Time',
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  BuildCalendar(),
-                  SizedBox(height: 20),
-                ],
-              ),
-            ),
+            _buildTotalRepetitions(),
             SizedBox(height: 20),
-            // Completion Rate
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Completion Rate',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    '0%',
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            _buildCompletionRate(),
             SizedBox(height: 20),
-            // Frequency
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Frequency',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    'all days',
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            _buildFrequency(),
             SizedBox(height: 20),
-            // Reminder
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Reminder',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    '1:00 AM',
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            _buildReminder(),
             SizedBox(height: 20),
-            // Habit Created On
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Habit Created On',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    '12th October 2021',
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            _buildHabitCreatedOn(),
             SizedBox(height: 20),
           ],
         ),
+      ),
+    );
+  }
+
+  // Widget to build the Current Streak section
+  Widget _buildStreakContainer(int streakDays) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      padding: EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Text(
+            'Current Streak',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                streakDays.toString(),
+                style: TextStyle(
+                  fontSize: 50,
+                  fontFamily: 'Times New Roman',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(width: 5),
+              Icon(Icons.local_fire_department, size: 50, color: Colors.orange),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget to build Total Repetitions section
+  Widget _buildTotalRepetitions() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      padding: EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Total Repetitions',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            'Time',
+            style: TextStyle(
+              fontSize: 15,
+            ),
+          ),
+          SizedBox(height: 10),
+          BuildCalendar(),
+          SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+
+  // Widget to build Completion Rate section
+  Widget _buildCompletionRate() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      padding: EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Completion Rate',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 5),
+          Text(
+            '0%',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget to build Frequency section
+  Widget _buildFrequency() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      padding: EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Frequency',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 5),
+          Text(
+            'All Days',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget to build Reminder section
+  Widget _buildReminder() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      padding: EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Reminder',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 5),
+          Text(
+            '1:00 AM',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget to build Habit Created On section
+  Widget _buildHabitCreatedOn() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      padding: EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Habit Created On',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 5),
+          Text(
+            '12th October 2021',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+        ],
       ),
     );
   }

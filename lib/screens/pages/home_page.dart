@@ -15,6 +15,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Get current date
     String curDate = DateFormat('EEEE, MMMM d, yyyy').format(DateTime.now());
+
     return Scaffold(
       backgroundColor: primaryColor,
       // Light background color
@@ -43,17 +44,21 @@ class MyHomePage extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 6 , right: 6),
+        padding: const EdgeInsets.only(left: 6, right: 6),
         child: ListView.builder(
-            itemCount: 50,
+            itemCount: 5,
             itemBuilder: (context, index) {
-              return CustomTileHomePage();
+              return CustomTileHomePage(onnClick: () {
+                Get.to(() => TaskPage());
+              });
             }),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Add your onPressed code here
-          Get.to(AddTaskPage(), transition: Transition.zoom, duration: Duration(milliseconds: 200));
+          Get.to(AddTaskPage(),
+              transition: Transition.zoom,
+              duration: Duration(milliseconds: 200));
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100),

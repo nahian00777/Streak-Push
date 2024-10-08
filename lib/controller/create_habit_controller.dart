@@ -38,4 +38,12 @@ class CreateHabitController extends GetxController {
   void resetReminder() {
     selectedTime = TimeOfDay.now();
   }
+
+  void reset() {
+    selectedEmoji.value = "";
+    selectedDays = List<bool>.filled(7, true).obs;
+    isReminderOn.value = false;
+    selectedTime = TimeOfDay.now();
+    habitName = null;
+  }
 }

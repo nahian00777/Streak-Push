@@ -307,6 +307,7 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
                         child: ElevatedButton(
                           onPressed: () {
                             // Pushing Data to the Database
+                            controller.reset();
                             Get.offAll(MyHomePage());
                           },
                           style: ElevatedButton.styleFrom(
