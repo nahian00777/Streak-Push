@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:streak_push/screens/pages/add_task_page.dart';
 import 'package:streak_push/screens/pages/settings_page.dart';
 import 'package:streak_push/screens/pages/task_page.dart';
+import 'package:streak_push/services/database_service.dart';
 import 'package:streak_push/utility/constants.dart';
 
 import '../widgets/custom_tile_home_page.dart';
@@ -15,6 +16,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Get current date
     String curDate = DateFormat('EEEE, MMMM d, yyyy').format(DateTime.now());
+    DatabaseService _databaseService = DatabaseService.instance;
 
     return Scaffold(
       backgroundColor: primaryColor,
@@ -45,13 +47,25 @@ class MyHomePage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 6, right: 6),
-        child: ListView.builder(
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return CustomTileHomePage(onnClick: () {
-                Get.to(() => TaskPage());
-              });
-            }),
+        child: FutureBuilder(
+          future: _databaseService.getTasks(),
+          builder: (context, snapshot) {
+            return ListView.builder(
+                itemCount: snapshot.data?.length ?? 5,
+                itemBuilder: (context, index) {
+                  return CustomTileHomePage(
+                      onnClick: () {
+                        Get.to(
+                            () => TaskPage(
+                                habitName:
+                                    snapshot.data?[index].name ?? 'Habit Name'),
+                            transition: Transition.zoom,
+                            duration: Duration(milliseconds: 200));
+                      },
+                      task: snapshot.data?[index]);
+                });
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

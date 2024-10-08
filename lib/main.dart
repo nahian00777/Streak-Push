@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:streak_push/controller/animation_controller.dart';
 import 'package:streak_push/screens/wrapper/main_wrapper.dart';
+import 'package:streak_push/services/database_service.dart';
 
 import 'controller/create_habit_controller.dart';
 

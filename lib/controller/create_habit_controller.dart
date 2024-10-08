@@ -8,7 +8,7 @@ class CreateHabitController extends GetxController {
   var selectedDays = List<bool>.filled(7, true).obs;
   var isReminderOn = false.obs;
   var selectedTime = TimeOfDay.now();
-  var habitName;
+  TextEditingController habitName = TextEditingController();
 
   FocusNode focusNode = FocusNode();
   FocusNode focusNodeToHabit = FocusNode();
@@ -23,6 +23,15 @@ class CreateHabitController extends GetxController {
       }
     });
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    habitName.dispose();
+    focusNode.dispose();
+    focusNodeToHabit.dispose();
+    super.onClose();
   }
 
   void toggleTheme() {
@@ -44,6 +53,6 @@ class CreateHabitController extends GetxController {
     selectedDays = List<bool>.filled(7, true).obs;
     isReminderOn.value = false;
     selectedTime = TimeOfDay.now();
-    habitName = null;
+    habitName.clear();
   }
 }

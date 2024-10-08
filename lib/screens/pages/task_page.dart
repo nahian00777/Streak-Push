@@ -4,13 +4,19 @@ import 'package:streak_push/screens/pages/settings_page.dart';
 import 'package:streak_push/screens/widgets/build_calendar.dart';
 import 'package:streak_push/utility/constants.dart';
 
+import '../../controller/create_habit_controller.dart';
+
 class TaskPage extends StatelessWidget {
-  const TaskPage({super.key});
+  String habitName;
+
+  TaskPage({required this.habitName});
 
   @override
   Widget build(BuildContext context) {
-    String taskName = "Task Name";
-    int streakDays = 0; // Ideally, this should come from a reactive variable or a state management solution
+    String taskName =
+        habitName; // Ideally, this should come from a reactive variable or a state management solution
+    int streakDays =
+        0; // Ideally, this should come from a reactive variable or a state management solution
 
     return Scaffold(
       backgroundColor: primaryColor,

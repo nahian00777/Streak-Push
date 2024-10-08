@@ -2,6 +2,7 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:streak_push/screens/pages/home_page.dart';
+import 'package:streak_push/services/database_service.dart';
 import 'package:streak_push/utility/constants.dart';
 import '../../controller/create_habit_controller.dart';
 
@@ -9,7 +10,10 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
   CreateNewHabitPage({super.key});
 
   final CreateHabitController controller = Get.put(CreateHabitController());
+  final DatabaseService _databaseService = DatabaseService.instance;
   final FocusNode textFocusNode = FocusNode();
+
+  String? _task = null;
 
   @override
   Widget build(BuildContext context) {
@@ -307,7 +311,16 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
                         child: ElevatedButton(
                           onPressed: () {
                             // Pushing Data to the Database
-                            controller.reset();
+                            _task = controller.habitName.text.toString();
+                            if (_task == null || _task == "") {
+                              return;
+                            }
+                            _databaseService.addTask(_task!, "Description");
+                            // controller.habitName.clear();
+                            // controller.selectedEmoji.value = "";
+                            // controller.reset();
+                            // _task = null;
+                            Navigator.pop(context);
                             Get.offAll(MyHomePage());
                           },
                           style: ElevatedButton.styleFrom(
