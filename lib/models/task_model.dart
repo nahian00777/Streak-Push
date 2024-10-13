@@ -1,17 +1,21 @@
 class Task {
   final int id;
   final String name;
-  final String description;
+  final String icon;
+  final List<int> freq;
+  final String reminderTime;
+  final String dateCreated;
   final int streak;
   final int isCompleted;
-  final String date;
 
   Task({
     required this.id,
     required this.name,
-    required this.description,
+    required this.icon,
+    required this.freq,
+    required this.reminderTime,
     required this.streak,
     required this.isCompleted,
-    required this.date,
+    required this.dateCreated,
   });
 }

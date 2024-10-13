@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Correct import for GetX
 import 'package:intl/intl.dart';
 import 'package:streak_push/screens/pages/add_task_page.dart';
-import 'package:streak_push/screens/pages/settings_page.dart';
 import 'package:streak_push/screens/pages/task_page.dart';
 import 'package:streak_push/services/database_service.dart';
 import 'package:streak_push/utility/constants.dart';
-
 import '../widgets/custom_tile_home_page.dart';
 
 class MyHomePage extends StatelessWidget {

@@ -34,7 +34,7 @@ class CustomTileHomePage extends StatelessWidget {
           ),
           margin: EdgeInsets.all(5),
           child: Padding(
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: ListTile(
               title: Text(
                 task?.name ?? 'Habit Name',
@@ -43,20 +43,35 @@ class CustomTileHomePage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              leading: Icon(
-                Icons.ac_unit,
-                size: 40,
-              ),
-              trailing: Icon(
-                Icons.fire_extinguisher,
-                size: 30,
-              ),
-              subtitle: Text(
-                'Here is the subtitle for the habit',
+              leading: Text(
+                task?.icon ?? '🔥',
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: 40,
                 ),
               ),
+              trailing: task!.streak > 1
+                  ? Row(
+                      mainAxisSize: MainAxisSize.min,
+                      // Ensure the row takes minimal space
+                      children: [
+                        Text(
+                          '${task!.streak}', // Display the streak number
+                          style: TextStyle(
+                            fontSize: 20, // Adjust the size of the number
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        // Add some spacing between the number and emoji
+                        Text(
+                          "🔥", // The emoji
+                          style: TextStyle(
+                            fontSize: 30, // Adjust the size of the emoji
+                          ),
+                        ),
+                      ],
+                    )
+                  : null,
             ),
           ),
         );

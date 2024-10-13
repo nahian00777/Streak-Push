@@ -244,7 +244,7 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
                                   child: Obx(() {
                                     return CircleAvatar(
                                       backgroundColor:
-                                          controller.selectedDays[index]
+                                          controller.selectedDays[index] == 1
                                               ? secondaryColor
                                               : Colors.grey,
                                       child: Text(
@@ -315,7 +315,12 @@ class CreateNewHabitPage extends GetView<CreateHabitController> {
                             if (_task == null || _task == "") {
                               return;
                             }
-                            _databaseService.addTask(_task!, "Description");
+                            _databaseService.addTask(
+                                _task!,
+                                controller.selectedEmoji.value,
+                                controller.selectedDays,
+                                controller.selectedTime.format(context),
+                                DateTime.now().toIso8601String());
                             // controller.habitName.clear();
                             // controller.selectedEmoji.value = "";
                             // controller.reset();

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 class CreateHabitController extends GetxController {
   var isEmojiVisible = false.obs;
   var selectedEmoji = "".obs;
-  var selectedDays = List<bool>.filled(7, true).obs;
+  var selectedDays = List<int>.filled(7, 1).obs;
   var isReminderOn = false.obs;
   var selectedTime = TimeOfDay.now();
   TextEditingController habitName = TextEditingController();
@@ -40,7 +40,11 @@ class CreateHabitController extends GetxController {
   }
 
   void toggleDay(int index) {
-    selectedDays[index] = !selectedDays[index];
+    if (selectedDays[index] == 1) {
+      selectedDays[index] = 0;
+    } else {
+      selectedDays[index] = 1;
+    }
     selectedDays.refresh();
   }
 
@@ -50,7 +54,7 @@ class CreateHabitController extends GetxController {
 
   void reset() {
     selectedEmoji.value = "";
-    selectedDays = List<bool>.filled(7, true).obs;
+    selectedDays = List<int>.filled(7, 1).obs;
     isReminderOn.value = false;
     selectedTime = TimeOfDay.now();
     habitName.clear();

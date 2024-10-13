@@ -1,6 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../models/task_model.dart';
+import 'dart:convert';
 
 class DatabaseService {
   static Database? _db;
@@ -9,10 +10,12 @@ class DatabaseService {
   final String _tasksTableName = "tasks";
   final String _tasksIdColumnName = "id";
   final String _tasksNameColumnName = "name";
-  final String _tasksDescriptionColumnName = "description";
+  final String _tasksIconColumnName = "icon";
   final String _tasksStreakColumnName = "streak";
   final String _tasksIsCompletedColumnName = "isCompleted";
-  final String _tasksDateColumnName = "date";
+  final String _tasksDateCreatedColumnName = "dateCreated";
+  final String _tasksReminderTimeColumnName = "reminderTime";
+  final String _tasksFreqColumnName = "freq";
 
   DatabaseService._constructor();
 
@@ -34,10 +37,12 @@ class DatabaseService {
             CREATE TABLE $_tasksTableName (
               $_tasksIdColumnName INTEGER PRIMARY KEY AUTOINCREMENT,
               $_tasksNameColumnName TEXT NOT NULL,
-              $_tasksDescriptionColumnName TEXT NOT NULL,
+              $_tasksIconColumnName TEXT NOT NULL,
               $_tasksStreakColumnName INTEGER NOT NULL,
               $_tasksIsCompletedColumnName INTEGER NOT NULL,
-              $_tasksDateColumnName TEXT NOT NULL
+              $_tasksDateCreatedColumnName TEXT NOT NULL,
+              $_tasksReminderTimeColumnName TEXT NOT NULL,
+              $_tasksFreqColumnName TEXT NOT NULL         
             )
           ''', // Remove the extra parenthesis here
         );
@@ -48,19 +53,27 @@ class DatabaseService {
 
   void addTask(
     String name,
-    String description,
+    String icon,
+    List<int> freq,
+    String reminderTime,
+    String dateCreated,
   ) async {
     final db = await database;
+
     await db.insert(
       _tasksTableName,
       {
         _tasksNameColumnName: name,
-        _tasksDescriptionColumnName: description,
+        _tasksIconColumnName: icon,
         _tasksStreakColumnName: 0,
         _tasksIsCompletedColumnName: 0,
-        // Store as an integer (0 for false)
-        _tasksDateColumnName: DateTime.now().toIso8601String(),
-        // You can format the date as needed
+        // 0 indicates task is not completed
+        _tasksDateCreatedColumnName: DateTime.now().toIso8601String(),
+        // Store current date in ISO format
+        _tasksReminderTimeColumnName: reminderTime,
+        // Store reminder time
+        _tasksFreqColumnName: jsonEncode(freq),
+        // Convert freq list to JSON string and store it
       },
     );
   }
@@ -68,15 +81,20 @@ class DatabaseService {
   Future<List<Task>?> getTasks() async {
     final db = await database;
     final data = await db.query(_tasksTableName);
+
     List<Task> tasks = data
         .map(
           (e) => Task(
             id: e["id"] as int,
-            streak: e["streak"] as int,
-            description: e["description"] as String,
-            date: e["date"] as String,
             name: e["name"] as String,
-            isCompleted: e["isCompleted"] as int, // Convert integer to bool
+            streak: e["streak"] as int,
+            isCompleted: e["isCompleted"] as int,
+            // Integer remains as int, no conversion needed
+            dateCreated: e["dateCreated"] as String,
+            reminderTime: e["reminderTime"] as String,
+            icon: e["icon"] as String,
+            freq: List<int>.from(jsonDecode(e["freq"]
+                as String)), // Parse freq from JSON string to List<int>
           ),
         )
         .toList();
